@@ -1,0 +1,33 @@
+{
+  "name": "radix-web",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@nx/eslint": "18.3.4",
+    "@nx/eslint-plugin": "18.3.4",
+    "@nx/js": "18.3.4",
+    "@nx/node": "^18.3.4",
+    "@types/node": "18.16.9",
+    "@typescript-eslint/eslint-plugin": "^7.3.0",
+    "@typescript-eslint/parser": "^7.3.0",
+    "babel-plugin-macros": "^3.1.0",
+    "eslint": "~8.57.0",
+    "eslint-config-prettier": "^9.0.0",
+    "nx": "18.3.4",
+    "prettier": "^2.6.2",
+    "typescript": "~5.4.2",
+    "verdaccio": "^5.0.4"
+  },
+  "nx": {},
+  "dependencies": {
+    "lit": "^3.1.3",
+    "tslib": "^2.3.0"
+  }
+}

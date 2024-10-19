@@ -11,9 +11,9 @@
   "license": "ISC",
   "devDependencies": {
     "@nx/eslint": "18.3.4",
-    "@nx/eslint-plugin": "18.3.4",
+    "@nx/eslint-plugin": "^16.2.2",
     "@nx/js": "18.3.4",
-    "@nx/node": "^18.3.4",
+    "@nx/node": "^16.2.2",
     "@types/node": "18.16.9",
     "@typescript-eslint/eslint-plugin": "^7.3.0",
     "@typescript-eslint/parser": "^7.3.0",

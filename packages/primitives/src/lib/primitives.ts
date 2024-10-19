@@ -1,3 +1,1 @@
-export function primitives(): string {
-  return 'primitives';
-}
+export * from './accordion';

@@ -1,7 +1,6 @@
 {
   "$schema": "./node_modules/nx/schemas/nx-schema.json",
   "defaultBase": "main",
-  "nxCloudAccessToken": "ZGRlM2I3NTItNmFkNy00ZDQwLWIwZmItODJlZmY3MzdlNjBmfHJlYWQtd3JpdGU=",
   "targetDefaults": {
     "@nx/js:tsc": {
       "cache": true,

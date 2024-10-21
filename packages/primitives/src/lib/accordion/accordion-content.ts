@@ -1,46 +1,61 @@
-// accordion-content.ts
-import { LitElement, html, css } from 'lit';
-import { customElement } from 'lit/decorators.js';
-import { accordionState } from './accordion-state';
-import { AccordionItem } from './accordion-item';
-import { SignalWatcher } from '@lit-labs/signals';
+// accordion-content.js
+import { LitElement, html, css } from "lit";
+import { customElement, property } from "lit/decorators.js";
+import { consume } from "@lit/context";
+import { AccordionContext } from "./accordion-root.js";
+import { SignalWatcher } from "@lit-labs/signals";
 
-@customElement('rdx-accordion-content')
+@customElement("accordion-content")
 export class AccordionContent extends SignalWatcher(LitElement) {
-  static override styles = css`
+  @property({ type: String }) id;
+
+  @consume({ context: AccordionContext, subscribe: true })
+  store: any;
+
+  static styles = css`
     .content {
+      padding: 10px;
       display: none;
+      animation: fadeIn 0.3s ease-in-out;
     }
-    .content[open] {
+
+    .open {
       display: block;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+      }
+      to {
+        opacity: 1;
+      }
     }
   `;
 
-  private accordionItem!: AccordionItem;
-
-  override connectedCallback(): void {
-    super.connectedCallback();
-    const parentItem = this.closest(
-      'rdx-accordion-item'
-    ) as AccordionItem | null;
-    if (parentItem) {
-      this.accordionItem = parentItem;
-    } else {
-      throw new Error('AccordionContent must be used within an AccordionItem');
-    }
+  constructor() {
+    super();
+    this.id = `accordion-content-${crypto.randomUUID()}`;
   }
 
-  override render() {
-    const itemId = this.accordionItem.itemId;
-    const isOpen = accordionState.get().has(itemId);
+  getParentItemId() {
+    let parent = this.parentElement;
+    while (parent && parent.tagName.toLowerCase() !== "accordion-item") {
+      parent = parent.parentElement;
+    }
+    return parent ? parent.id : null;
+  }
+
+  render() {
+    const itemId = this.getParentItemId();
+    const isOpen = this.store.isOpen(itemId);
 
     return html`
       <div
-        class="content"
-        ?open="${isOpen}"
+        id="content-${itemId}"
+        class="content ${isOpen ? "open" : ""}"
         role="region"
-        aria-labelledby="${itemId}-trigger"
-        id="${itemId}-content"
+        aria-labelledby="accordion-trigger-${itemId}"
       >
         <slot></slot>
       </div>

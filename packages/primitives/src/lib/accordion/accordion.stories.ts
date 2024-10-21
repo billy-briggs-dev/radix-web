@@ -1,58 +1,41 @@
-import { Meta, StoryObj } from '@storybook/web-components';
-import { html } from 'lit';
+import { html } from "lit";
+import { Meta } from '@storybook/web-components';
 
-import './accordion';
-import './accordion-item';
-import './accordion-trigger';
-import './accordion-content';
 
-const meta: Meta = {
-  title: 'Components/Accordion',
-  component: 'accordion',
-};
+import './accordion-content'
+import './accordion-item'
+import './accordion-root'
+import './accordion-trigger'
 
-export default meta;
+export default {
+    title: 'Components/Accordion',
+    component: 'rdx-accordion-root',
+  } as Meta;
+  
+  export const Default = () => html`
+  <rdx-accordion-root allowMultiple="true">
+    <accordion-item id="item-1">
+      <accordion-trigger>Section 1</accordion-trigger>
+      <accordion-content>
+        <p>This is the content for section 1.</p>
+      </accordion-content>
+    </accordion-item>
 
-export const Default: StoryObj = {
-  render: () => html`
-    <style>
-      rdx-accordion-trigger button {
-        background: none;
-        border: none;
-        font-size: 1em;
-        cursor: pointer;
-        width: 100%;
-        text-align: left;
-        padding: 0.5em;
-        outline: none;
-      }
+    <accordion-item id="item-2">
+      <accordion-trigger>Section 2</accordion-trigger>
+      <accordion-content>
+        <p>This is the content for section 2.</p>
+      </accordion-content>
+    </accordion-item>
 
-      rdx-accordion-content .content {
-        padding: 0.5em;
-        border: 1px solid #ccc;
-      }
-
-      h3 {
-        margin: 0;
-      }
-    </style>
-    <rdx-accordion>
-      <rdx-accordion-item itemId="item1">
-        <rdx-accordion-trigger>
-          <h3>Section 1</h3>
-        </rdx-accordion-trigger>
-        <rdx-accordion-content>
-          <p>Content for section 1</p>
-        </rdx-accordion-content>
-      </rdx-accordion-item>
-      <rdx-accordion-item itemId="item2">
-        <rdx-accordion-trigger>
-          <h3>Section 2</h3>
-        </rdx-accordion-trigger>
-        <rdx-accordion-content>
-          <p>Content for section 2</p>
-        </rdx-accordion-content>
-      </rdx-accordion-item>
-    </rdx-accordion>
-  `,
-};
+    <accordion-item id="item-3">
+      <accordion-trigger>Section 3</accordion-trigger>
+      <accordion-content>
+        <p>This is the content for section 3.</p>
+      </accordion-content>
+    </accordion-item>
+  </rdx-accordion-root>
+  `;
+  
+  Default.storyName = 'Accordion Example';
+  

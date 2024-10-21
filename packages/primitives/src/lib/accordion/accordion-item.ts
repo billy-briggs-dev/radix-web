@@ -1,20 +1,29 @@
-// accordion-item.ts
-import { LitElement, html } from 'lit';
-import { customElement, property } from 'lit/decorators.js';
+// accordion-item.js
+import { LitElement, html, css } from "lit";
+import { customElement, property } from "lit/decorators.js";
+import { consume } from "@lit/context";
+import { AccordionContext } from "./accordion-root";
+import { SignalWatcher } from "@lit-labs/signals";
 
-@customElement('rdx-accordion-item')
-export class AccordionItem extends LitElement {
-  @property({ type: String }) itemId: string = '';
+@customElement("accordion-item")
+export class AccordionItem extends SignalWatcher(LitElement) {
+  @property({ type: String }) id = `accordion-item-${crypto.randomUUID()}}`;
 
-  override connectedCallback(): void {
-    super.connectedCallback();
-    if (!this.itemId) {
-      this.itemId =
-        'rdx-accordion-item-' + Math.random().toString(36).substr(2, 9);
+  @consume({ context: AccordionContext, subscribe: true })
+  store: any;
+
+  static styles = css`
+    :host {
+      display: block;
+      border-bottom: 1px solid #ddd;
     }
-  }
 
-  override render() {
+    :last-child {
+      border-bottom: none;
+    }
+  `;
+
+  render() {
     return html`<slot></slot>`;
   }
 }

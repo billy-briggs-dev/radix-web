@@ -1,48 +1,51 @@
-// accordion-trigger.ts
-import { LitElement, html } from 'lit';
-import { customElement } from 'lit/decorators.js';
-import { accordionState } from './accordion-state';
-import { AccordionItem } from './accordion-item';
-import { SignalWatcher } from '@lit-labs/signals';
+// accordion-trigger.js
+import { LitElement, html, css } from "lit";
+import { customElement, property } from "lit/decorators.js";
+import { consume } from "@lit/context";
+import { AccordionContext } from "./accordion-root";
+import { SignalWatcher } from "@lit-labs/signals";
 
-@customElement('rdx-accordion-trigger')
+@customElement("accordion-trigger")
 export class AccordionTrigger extends SignalWatcher(LitElement) {
-  private accordionItem!: AccordionItem;
+  @property({ type: String }) id;
 
-  override connectedCallback(): void {
-    super.connectedCallback();
-    const parentItem = this.closest(
-      'rdx-accordion-item'
-    ) as AccordionItem | null;
-    if (parentItem) {
-      this.accordionItem = parentItem;
-    } else {
-      throw new Error('AccordionTrigger must be used within an AccordionItem');
+  @consume({ context: AccordionContext, subscribe: true })
+  store: any;
+
+  static styles = css`
+  `;
+
+  constructor() {
+    super();
+    this.id = `accordion-trigger-${Math.random().toString(36).substr(2, 9)}`;
+  }
+
+  toggle() {
+    console.log(this.store)
+    const itemId = this.getParentItemId();
+    if (itemId) {
+      this.store.toggleItem(itemId, this.store.allowMultiple);
     }
   }
 
-  private toggle(): void {
-    const currentState = accordionState.get();
-    const newState = new Set(currentState);
-    const itemId = this.accordionItem.itemId;
-    if (newState.has(itemId)) {
-      newState.delete(itemId);
-    } else {
-      newState.add(itemId);
+  getParentItemId() {
+    let parent = this.parentElement;
+    while (parent && parent.tagName.toLowerCase() !== "accordion-item") {
+      parent = parent.parentElement;
     }
-    accordionState.set(newState);
+    return parent ? parent.id : null;
   }
 
-  override render() {
-    const itemId = this.accordionItem.itemId;
-    const isOpen = accordionState.get().has(itemId);
+  render() {
+    const itemId = this.getParentItemId();
+    const isOpen = this.store.isOpen(itemId);
 
     return html`
       <button
-        @click=${this.toggle}
+        id="${this.id}"
         aria-expanded="${isOpen}"
-        aria-controls="${itemId}-content"
-        id="${itemId}-trigger"
+        aria-controls="content-${itemId}"
+        @click=${this.toggle}
       >
         <slot></slot>
       </button>
